@@ -1,0 +1,20 @@
+name: Publish Articles
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # Runs daily at midnight
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Publish Article
+        run: |
+          curl -X POST -H "Content-Type: application/json" -d \
+          '{"article_url": "https://finnstats.com/"}' \
+          https://api.github.com/repos/yourusername/yourrepo/issues \
+          -H "Authorization: token ${{secrets.GITHUB_TOKEN}}"
